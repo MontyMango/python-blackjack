@@ -6,7 +6,7 @@ class deck():
 
     # Makes the deck
     def make_deck(self):
-        numbers = ['A',1,2,3,4,5,6,7,8,9,10]
+        numbers = ['A','K','Q','J',2,3,4,5,6,7,8,9,10]
         symbols = ['Clubs','Hearts','Spades','Diamonds']
         for number in numbers:
             for symbol in symbols:

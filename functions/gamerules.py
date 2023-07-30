@@ -13,14 +13,14 @@ class gameplay:
     def add_card_to_drawn_cards(self, card_drawn):
         self.drawn_cards.append(card_drawn)
 
+    # Check card score is used for troubleshooting purposes
     def check_card_score(self, card):
         if isinstance(card[0], str):
-            if self.card_score < 11:
-                return 11
-            else: 
-                return 1
-        else:
-            return card[0]
+            if 'A' == card[0]:   # If the card is an Ace
+                if (11 + self.card_score) <= 21: return 11
+                else: return 1
+            else: return 10         # If the card is a King, Queen, or Jack    
+        else: return card[0]
         
     # count_cards is used to check if any change has happened to the score
     # due to Aces being either 1 or 11, the cards have to be checked everytime a card has been drawn
@@ -30,13 +30,17 @@ class gameplay:
         
         # Checks the drawn cards
         for card in self.drawn_cards:
+            card_value = card[0]
             # This helped me here: https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
-            # Since Ace is the only string in the card numbers, every string will count as an ace in the cards.
-            if isinstance(card[0], str):
-                isAce+=1
+            # If the card isn't a number, 
+            if isinstance(card_value, str):
+                if 'A' == card_value:   # If the card is an Ace
+                    isAce+=1
+                else:                   # If the card is a King, Queen, or Jack
+                    local_score+=10
             else:
-                card[0]+=local_score
-        
+                local_score+=card_value
+
         # If the score is less or at 10, aces should be 11. If more than 10, aces should be 1 
         if ((11*isAce) + local_score) <= 21:
             local_score+=(11*isAce)

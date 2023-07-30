@@ -2,14 +2,12 @@ from functions.gamerules import gameplay
 
 game = gameplay()
 
-drawn_card = ['A','Spades']
-game.add_card_to_drawn_cards(drawn_card)
-game.count_cards()
-# 11
-drawn_card = ['10','Spades']
-game.add_card_to_drawn_cards(drawn_card)
-game.count_cards()
-# 2
-print(game.get_card_score())
+cards_to_try = [ ['A', 'Spades'], [10, 'Spades'],
+                 [2, 'Hearts'], ['K', 'Clubs'] ]
 
-# There is something wrong with the calcuations!
+for card in cards_to_try:
+    game.add_card_to_drawn_cards(card)
+    print("Current Card Score: " + str(game.check_card_score(card)))
+    game.count_cards()
+    print("Total Card Score: " + str(game.get_card_score()))
+    print("\n")
