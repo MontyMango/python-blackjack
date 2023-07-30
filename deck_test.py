@@ -1,4 +1,4 @@
-import deck
+import functions.deck as deck
 
 card_deck = deck.deck()
 card_deck.make_deck()
