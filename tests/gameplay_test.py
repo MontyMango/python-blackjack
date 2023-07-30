@@ -1,4 +1,7 @@
-from functions.gamerules import gameplay
+# This helped here: https://stackoverflow.com/questions/4383571/importing-files-from-different-folder
+import sys
+sys.path.insert(1,'/workspaces/python-blackjack/functions/')   
+from gamerules import gameplay
 
 game = gameplay()
 

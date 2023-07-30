@@ -1,4 +1,6 @@
-import functions.deck as deck
+import sys
+sys.path.insert(1,'/workspaces/python-blackjack/functions/')   
+import deck
 
 card_deck = deck.deck()
 card_deck.make_deck()

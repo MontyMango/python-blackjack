@@ -1,4 +1,6 @@
-from functions.scoreboard import scoreboard
+import sys
+sys.path.insert(1,'/workspaces/python-blackjack/functions/')   
+from scoreboard import scoreboard
 
 score = scoreboard()
 
