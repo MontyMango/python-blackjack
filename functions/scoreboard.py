@@ -1,4 +1,4 @@
-class scoreboard:
+class scorekeeper:
     def __init__(self):
         self.player_score = 100     # The player starts out with 100 score
         self.bet = 0
