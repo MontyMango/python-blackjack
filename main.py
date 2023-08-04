@@ -8,7 +8,7 @@ score = scorekeeper()
 gameplay = gameplay(score)
 
 def game():
-    while score.get_player_score > 0:
+    while score.get_player_score() > 0:
         print("Let's begin!\n\n")
         card_deck.make_deck()
 

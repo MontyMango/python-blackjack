@@ -1,6 +1,3 @@
-from scoreboard import scorekeeper
-score = scorekeeper()
-
 class gameplay:
     def __init__(self, scoreboard_class):
         self.player_card_score = 0
@@ -18,7 +15,7 @@ class gameplay:
     # get_person
     # 0 - Player
     # 1 - House
-    def get_person(self, number):
+    def get_person_info(self, number):
         if number == 0:
             return [self.player_card_score, self.player_drawn_cards]
         else:
@@ -54,7 +51,7 @@ class gameplay:
 
     # Check card score is used for troubleshooting purposes, but can be used for the game as well.
     def check_card_score(self, person, card):
-        card_score = self.get_person(person)[0]     # Get the person's score
+        card_score = self.get_person_info(person)[0]     # Get the person's score
         if isinstance(card[0], str):
             if 'A' == card[0]:   # If the card is an Ace
                 if (11 + card_score) <= 21:
@@ -70,7 +67,8 @@ class gameplay:
     # due to Aces being either 1 or 11, the cards have to be checked everytime a card has been drawn
     # person_to_check: an int value that is used to check either house or the player
     def recount_card_score(self,person):
-        drawn_cards = self.get_person(person)[1]
+        drawn_cards = self.get_person_info(person)[1]
+        print(drawn_cards[0][0])
         local_score = 0
         isAce = 0
         
@@ -121,9 +119,9 @@ class gameplay:
                 print("You lost " + self.score.get_bet() + " points back")
                 self.score.lose()
             else:                           # If player wins
-                print("You win! Here's " + str(score.get_bet()) + " points!")
+                print("You win! Here's " + str(self.score.get_bet()) + " points!")
                 print("You recieved " + self.score.get_bet() + " points back")
-                self.score.win() 
+                self.score.win()  
 
         # No one won!
         elif (house_score > 21) and (player_score > 21):
