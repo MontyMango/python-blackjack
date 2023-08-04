@@ -1,9 +1,13 @@
+from scoreboard import scoreboard
+score = scoreboard()
+
 class gameplay:
-    def __init__(self):
+    def __init__(self, scoreboard_class):
         self.player_card_score = 0
         self.house_card_score = 0
         self.player_drawn_cards = []
         self.house_drawn_cards =[]
+        score = scoreboard_class
 
     def start_new_game(self):
         self.player_card_score = 0
@@ -11,8 +15,11 @@ class gameplay:
         self.player_drawn_cards = []
         self.house_drawn_cards =[]
 
+    # get_person
+    # 0 - Player
+    # 1 - House
     def get_person(self, number):
-        if number == 1:
+        if number == 0:
             return [self.player_card_score, self.player_drawn_cards]
         else:
             return [self.house_card_score, self.house_drawn_cards]
@@ -31,7 +38,7 @@ class gameplay:
 
     # Check card score is used for troubleshooting purposes, but can be used for the game as well.
     def check_card_score(self, person, card):
-        card_score = self.get_person(person)[0]
+        card_score = self.get_person(person)[0]     # Get the person's score
         if isinstance(card[0], str):
             if 'A' == card[0]:   # If the card is an Ace
                 if (11 + card_score) <= 21:
@@ -47,12 +54,12 @@ class gameplay:
     # due to Aces being either 1 or 11, the cards have to be checked everytime a card has been drawn
     # person_to_check: an int value that is used to check either house or the player
     def count_cards(self,person):
-        drawn_cards = self.get_person(person)
+        drawn_cards = self.get_person(person)[1]
         local_score = 0
         isAce = 0
         
         # Checks the drawn cards
-        for card in drawn_cards[1]:
+        for card in drawn_cards:
             card_value = card[0]
             # This helped me here: https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if isinstance(card_value, str):
@@ -70,11 +77,38 @@ class gameplay:
             local_score+=isAce
 
         # Since local score is the best score, it is now the game's score
-        drawn_cards[0] = local_score
-             
+        if person == 0:
+            self.player_card_score = local_score
+        else:
+            self.house_card_score = local_score
+
+
     # Checks the player's score to see if they should be still playing.
     def check_if_still_playing(self, person):
         person_to_check = self.get_person(person)
         return (person_to_check[0] < 21)
     
+
+    def win_check(self):
+        # Added this for better code readability
+        house_score = self.house_card_score
+        player_score = self.player_card_score
+
+        if (house_score <= 21) and (player_score <= 21):
+            if house_score == player_score:     # If both scores are the same
+                print("It's a tie! You were refunded your points.")
+                self.score.refund()
+            elif house_score > player_score:  # If house wins
+                print("You lose :(")
+                print("You lost " + self.score.get_bet() + " points back")
+                self.score.lose()
+            else:                           # If player wins
+                print("You win! Here's " + str(score.get_bet()) + " points!")
+                print("You recieved " + self.score.get_bet() + " points back")
+                self.score.win()        
+        # No one won!
+        elif (house_score > 21) and (player_score > 21):
+            print("Both bust! Looks like no one won.")
+            print("You recieved " + self.score.get_bet() + " points back")
+            self.score.refund()
 

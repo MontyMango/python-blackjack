@@ -4,8 +4,8 @@ from functions.scoreboard import scoreboard
 import time
 
 card_deck = deck()
-game = gameplay()
 score = scoreboard()
+game = gameplay(score)
 
 def game():
     print("Let's begin!\n\n")

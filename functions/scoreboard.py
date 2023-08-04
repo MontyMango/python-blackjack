@@ -21,3 +21,7 @@ class scoreboard:
     # Since set_bet does all the hard work, lose is basically useless right now
     def lose(self):
         pass
+
+    # If there is a tie or both bust. A refund is initated.
+    def refund(self):
+        self.player_score+=self.bet
