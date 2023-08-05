@@ -67,15 +67,16 @@ class gameplay:
     # due to Aces being either 1 or 11, the cards have to be checked everytime a card has been drawn
     # person_to_check: an int value that is used to check either house or the player
     def recount_card_score(self,person):
-        print(self.get_person_info(person))
+        # print(self.get_person_info(person))   # For debugging purposes: To see if person has score & a deck of cards
         drawn_cards = self.get_person_info(person)[1]
-        print(drawn_cards[0])
+        # print(drawn_cards[0])                 # For debugging purposes: To see the drawn card
         local_score = 0
         isAce = 0
         
         # Checks the drawn cards
         for card in drawn_cards:
             card_value = card[0]
+            # print("card value " + str(card_value))    # Debugging purpose: To see if card value is right
             # This helped me here: https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if isinstance(card_value, str):
                 if 'A' == card_value:   # If the card is an Ace
@@ -85,12 +86,16 @@ class gameplay:
             else:
                 local_score+=card_value
 
+            # print("Score: " + str(local_score))   # Debugging purpose: To see if card was added correctly
+
         # If the score is less or at 10, aces should be 11. If more than 10, aces should be 1 
         if ((11*isAce) + local_score) <= 21:
             local_score+=(11*isAce)
         else:
             local_score+=isAce
 
+        # print("Final local Score: " + str(local_score))   # Debugging purpose: To see if Ace function worked
+        
         # Since local score is the best score, it is now the game's score
         if person == 0:
             self.player_card_score = local_score
@@ -99,33 +104,72 @@ class gameplay:
 
 
     # Checks the player's score to see if they should be still playing.
-    def can_player_still_play(self):
-        return (self.player_card_score < 21)
-    
-    def is_house_beating_player(self):
-        return self.player_card_score < self.house_card_score
+    def player_status(self):
+        if self.player_card_score < 21:     # This is usually the case
+            return True
+        # Added dialog
+        elif self.player_card_score == 21:  # If 21 is hit, the game will stop for you
+            print("21 nice! We will stop here!")
+            return False 
+        else:                               # If it is over 21, then it's a bust!
+            print("oh no busted! :( ")
+            return False
+
+ 
+    def is_player_beating_house(self):
+        return (self.player_card_score >= self.house_card_score)
     
 
     def win_check(self):
         # Added this for better code readability
         house_score = self.house_card_score
         player_score = self.player_card_score
+        bet = str(self.score.get_bet())
 
+        # Added these definitions in here for better readability and some plays end the same way.
+        def player_won():
+            print("You win! Here's " + bet + " points!")
+            print("You recieved " + bet + " points back")
+            self.score.win()
+        
+        def house_won():
+            print("You lose :(")
+            print("You lost " + bet + " points back")
+            self.score.lose()
+
+        def tie():
+            print("It's a tie! You were refunded your points.")
+            self.score.refund()
+
+        def no_one_won():
+            print("Both bust! Looks like no one won.")
+            print("You recieved " + bet + " points back")
+            self.score.refund()
+
+
+
+        # If both house and player are both in play
         if (house_score <= 21) and (player_score <= 21):
             if house_score == player_score:     # If both scores are the same
-                print("It's a tie! You were refunded your points.")
-                self.score.refund()
-            elif house_score > player_score:  # If house wins
-                print("You lose :(")
-                print("You lost " + self.score.get_bet() + " points back")
-                self.score.lose()
-            else:                           # If player wins
-                print("You win! Here's " + str(self.score.get_bet()) + " points!")
-                print("You recieved " + self.score.get_bet() + " points back")
-                self.score.win()  
+                tie()
+            elif house_score > player_score:    # If house wins
+                house_won()
+            else:                               # If player wins
+                player_won()
 
-        # No one won!
+        # If no one won!
         elif (house_score > 21) and (player_score > 21):
-            print("Both bust! Looks like no one won.")
-            print("You recieved " + self.score.get_bet() + " points back")
-            self.score.refund()
+            no_one_won()
+            
+        # If house busts! Player wins!
+        elif (house_score > 21):
+            player_won()
+
+        # If player busts. House wins.
+        elif (player_score > 21):
+            house_won()
+        
+        # If somehow, something odd happens, and the computer doesn't know what to do.
+        else:
+            print("Well, this is odd. What happened in that play? Let's just say it's a tie...")
+            tie()
