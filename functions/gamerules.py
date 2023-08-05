@@ -3,23 +3,23 @@ class gameplay:
         self.player_card_score = 0
         self.house_card_score = 0
         self.player_drawn_cards = []
-        self.house_drawn_cards =[]
+        self.house_drawn_cards = []
         self.score = scoreboard_class
 
     def start_new_game(self):
         self.player_card_score = 0
         self.house_card_score = 0
         self.player_drawn_cards = []
-        self.house_drawn_cards =[]
+        self.house_drawn_cards = []
 
     # get_person
     # 0 - Player
     # 1 - House
     def get_person_info(self, number):
         if number == 0:
-            return [self.player_card_score, self.player_drawn_cards]
+            return [self.player_card_score, self.player_get_cards()]
         else:
-            return [self.house_card_score, self.house_drawn_cards]
+            return [self.house_card_score, self.house_get_drawn_cards()]
 
 
     # Player Getters
@@ -67,8 +67,9 @@ class gameplay:
     # due to Aces being either 1 or 11, the cards have to be checked everytime a card has been drawn
     # person_to_check: an int value that is used to check either house or the player
     def recount_card_score(self,person):
+        print(self.get_person_info(person))
         drawn_cards = self.get_person_info(person)[1]
-        print(drawn_cards[0][0])
+        print(drawn_cards[0])
         local_score = 0
         isAce = 0
         
