@@ -125,7 +125,8 @@ class gameplay:
         house_score = self.house_card_score
         player_score = self.player_card_score
         bet = str(self.score.get_bet())
-
+        
+        
         # Added these definitions in here for better readability and some plays end the same way.
         def player_won():
             print("You win! Here's " + bet + " points!")
