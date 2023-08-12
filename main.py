@@ -12,32 +12,116 @@ dealtime = 2
 
 
 def game():
-    while score.get_player_score() > 0:
-        print("Let's begin!\n\n")
-        gameplay.start_new_game()
-        card_deck.make_deck()
+    print("(You walk up to the table confidently with " + str(score.get_player_score()) + 
+          " points in your pocket and take a seat at a blackjack table)")
+    sleep(dealtime/3)
+    print("(The man looks at you)")
+    sleep(dealtime/3)
+    print("Hi! Welcome to Blackjack!\n\n")
 
-        print("Here are your two cards")
-        sleep(dealtime)
+    leave = False
 
-        # Draw two cards for each the player and house
-        for i in range(2):
-            card = card_deck.draw()
-            gameplay.player_add_card_to_drawn_cards(card)
-            card = card_deck.draw()
-            gameplay.house_add_card_to_drawn_cards(card)
+    while (score.get_player_score() > 0) and (leave is False):
+        # Bidding
+        leave = bid()
+        if(leave):
+            print("You leave the table with " + str(score.get_player_score()))
+        else:
+            # Gameplay
+            print("Let's begin!\n\n")
+            gameplay.start_new_game()
+            card_deck.make_deck()
+
+            print("Here are your two cards")
+            sleep(dealtime)
+
+            # Draw two cards for each the player and house
+            for i in range(2):
+                p_card = card_deck.draw()
+                h_card = card_deck.draw()
+                gameplay.player_add_card_to_drawn_cards(p_card)
+                gameplay.house_add_card_to_drawn_cards(h_card)
+            
+            print("*House flips their last drawn card*")
+            sleep(dealtime/2)
+            print("Their card: " + str(h_card[0]) + " of " + str(h_card[1]))
+            sleep(dealtime/4)
+        
+            print("*You flip your cards*")
+            sleep(dealtime/2)
+            print("Your cards: " + str(gameplay.player_drawn_cards))
+            sleep(dealtime/2)
+            print("You total score: " + str(gameplay.player_get_card_score()))
+            sleep(dealtime/2)
+
+            player_play()
+            house_play()
+            gameplay.win_check()
+            sleep(dealtime)
+            print("\n\n\n\n\n")
     
-        print("*You flip your cards*")
+    if (score.get_player_score() <= 0):
+        print("Oh, it looks like you are out of funds... Boys! Get this person out of here!")
         sleep(dealtime)
-        print("Your cards: " + str(gameplay.player_drawn_cards))
-        sleep(dealtime/2)
-        print("You total score: " + str(gameplay.player_get_card_score()))
-        sleep(dealtime/2)
+        print("You get up and try to run but the 2 large people come up to you, grab you, and push you outside.")
+        sleep(dealtime)
+        print("Well, there\'s no way home... So I guess I will sleep here...")
+        sleep(dealtime)
+        print("You fell asleep on the concrete outside of the casino...")
+        sleep(dealtime)
+        print("Thanks for playing!")
+    else:
+        print("You then see the doors open by two men holding the door for you.")
+        sleep(dealtime)
+        print("You pass the two men holding the door with a smile.")
+        sleep(dealtime)
+        print("You then look in your pockets and see that your winnings.")
+        sleep(dealtime)
+        print("\"Ahh, " + str(score.get_player_score()) + " points... \" You say to yourself")
+        sleep(dealtime)
+        print("What will I do with these points? Buy a fancy car? A house? Or charity?")
+        sleep(dealtime)
+        print("\"Oh I don't know, let\'s just go home and enjoy the evening.\"")
+        sleep(dealtime)
+        print("You get into your car and then start to drive home... The end.")
+        sleep(dealtime)
+        for i in range(5):
+            print(".", end='')
+            sleep(dealtime/2)
+        print(" or is it???")
+        sleep(dealtime*2)
+        print("\nThanks for playing!")
 
-        player_play()
-        house_play()
-        gameplay.win_check()
-        print("\n\n\n\n\n")
+
+
+def bid():
+    print("What is your bid? Bid 0 to leave table.\n")
+    sleep(dealtime/2)
+    print("Current points: " + str(score.get_player_score()))
+    has_bid = False
+    while(not has_bid):
+        try:
+            bid = int(input("Bid: "))
+            if (bid > score.get_player_score()):
+                print("...\nI think that you are short in funds... Could you make a bid that you can afford?")
+            elif (bid < 0):
+                print("...\nI don\'t let people play for free around here. You\'re going to need to make a bid")
+            elif (bid == 0):
+                print("You get up from the table")
+                has_bid = True
+                escape = True
+            else:
+                print("Alright, here we go!")
+                score.set_bet(bid)
+                has_bid = True
+                escape = False
+        except KeyboardInterrupt:
+            has_bid = True
+            escape = True
+        except:
+            print("Could you repeat that in gambling terms this time?\n")
+    sleep(dealtime/2)
+    return escape
 
 
 
