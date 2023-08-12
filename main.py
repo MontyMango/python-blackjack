@@ -12,8 +12,11 @@ dealtime = 2
 
 
 def game():
-    print("(You walk up to the table confidently with 100 points in your pocket and take a seat at a blackjack table)")
+    print("(You walk up to the table confidently with " + str(score.get_player_score()) + 
+          " points in your pocket and take a seat at a blackjack table)")
+    sleep(dealtime/3)
     print("(The man looks at you)")
+    sleep(dealtime/3)
     print("Hi! Welcome to Blackjack!\n\n")
 
     leave = False
