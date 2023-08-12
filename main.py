@@ -34,13 +34,18 @@ def game():
 
             # Draw two cards for each the player and house
             for i in range(2):
-                card = card_deck.draw()
-                gameplay.player_add_card_to_drawn_cards(card)
-                card = card_deck.draw()
-                gameplay.house_add_card_to_drawn_cards(card)
+                p_card = card_deck.draw()
+                h_card = card_deck.draw()
+                gameplay.player_add_card_to_drawn_cards(p_card)
+                gameplay.house_add_card_to_drawn_cards(h_card)
+            
+            print("*House flips their last drawn card*")
+            sleep(dealtime/2)
+            print("Their card: " + str(h_card[0]) + " of " + str(h_card[1]))
+            sleep(dealtime/4)
         
             print("*You flip your cards*")
-            sleep(dealtime)
+            sleep(dealtime/2)
             print("Your cards: " + str(gameplay.player_drawn_cards))
             sleep(dealtime/2)
             print("You total score: " + str(gameplay.player_get_card_score()))
@@ -49,6 +54,7 @@ def game():
             player_play()
             house_play()
             gameplay.win_check()
+            sleep(dealtime)
             print("\n\n\n\n\n")
     
     if (score.get_player_score() <= 0):
