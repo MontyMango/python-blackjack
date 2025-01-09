@@ -1,6 +1,10 @@
+# gameplay_test.py: Used to test each card score 
 # This helped here: https://stackoverflow.com/questions/4383571/importing-files-from-different-folder
 import sys
-sys.path.insert(1,'/workspaces/python-blackjack/functions/')   
+import os
+
+# Used GitHub Co-Pilot to help me out with getting the functions path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../functions')))
 from gamerules import gameplay
 from scoreboard import scorekeeper
 

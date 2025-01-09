@@ -129,13 +129,13 @@ class gameplay:
         
         # Added these definitions in here for better readability and some plays end the same way.
         def player_won():
-            print("You win! Here's " + bet + " points!")
-            print("You recieved " + bet + " points back")
+            print("You win! Here's " + (2 * bet) + " points!")
+            print("You won " + bet + " (+" + bet + ")" + " points!")
             self.score.win()
         
         def house_won():
             print("You lose :(")
-            print("You lost " + bet + " points back")
+            print("You lost " + bet + " points")
             self.score.lose()
 
         def tie():

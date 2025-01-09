@@ -7,8 +7,9 @@ card_deck = deck()
 score = scorekeeper()
 gameplay = gameplay(score)
 
+# You can edit this variable if the game is going too fast for you
 dealtime = 2
-
+# If you need more or less chips, go into scoreboard.py and change self.player_score
 
 
 def game():
@@ -61,9 +62,9 @@ def game():
             print("\n\n\n\n\n")
     
     if (score.get_player_score() <= 0):
-        print("Oh, it looks like you are out of funds... Boys! Get this person out of here!")
+        print("Oh, it looks like you are out of funds... Guards! Get this person out of here!")
         sleep(dealtime)
-        print("You get up and try to run but the 2 large people come up to you, grab you, and push you outside.")
+        print("You get up and try to run but the 2 large guards come up to you, grab you, and push you outside.")
         sleep(dealtime)
         print("Well, there\'s no way home... So I guess I will sleep here...")
         sleep(dealtime)
@@ -71,9 +72,9 @@ def game():
         sleep(dealtime)
         print("Thanks for playing!")
     else:
-        print("You then see the doors open by two men holding the door for you.")
+        print("You then see the doors open by two guards holding the door for you.")
         sleep(dealtime)
-        print("You pass the two men holding the door with a smile.")
+        print("You pass the two guards holding the door with a smile.")
         sleep(dealtime)
         print("You then look in your pockets and see that your winnings.")
         sleep(dealtime)
